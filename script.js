@@ -19,17 +19,25 @@ let operationDivide = (x, y) => x / y;
 let operationAdd = (x, y) => x + y;
 let operationSubtract = (x, y) => x - y;
 
+equalButton.addEventListener('click', () => {
+    continueRunningOperation()
+    // console.log("Its running!")
+})
+
+
+// Logic to listen to the button pressed
 numberButtons.forEach((num) => {
-    num.addEventListener('click', () => console.log(num.textContent))
+    num.addEventListener('click', () => appendNumber(num.textContent))
 })
 
 opsButtons.forEach((op) => {
-    op.addEventListener('click', () => console.log(op.textContent))
+    op.addEventListener('click', () => setRunningOperation(op.textContent))
 })
 
 function appendNumber(num) {
-    if (lastDisplay.textContent === "0" || shouldResetScreen) resetDisplay()
+    if (currentDisplay.textContent === "0" || shouldResetScreen) resetDisplay()
 
+    currentDisplay.textContent += num
 }
 
 function resetDisplay() {
@@ -43,11 +51,12 @@ function setRunningOperation(op) {
 
     firstOperand = currentDisplay.textContent
     currentRunningOperation = op
-    lastDisplay = f`${firstOperand} ${currentRunningOperation}`
+    lastDisplay.textContent = `${firstOperand} ${currentRunningOperation}`
     shouldResetScreen = true
 }
 
 function continueRunningOperation() {
+
     if (currentRunningOperation === null) return
     if (currentRunningOperation === "÷" && currentDisplay.textContent === "0") {
         alert("Cannot divide by zero!")
@@ -60,7 +69,7 @@ function continueRunningOperation() {
     // Calculate the result, display in screen
     currentDisplay.textContent = calculate(
         currentRunningOperation, firstOperand, secondOperand)
-    lastDisplay.textContent = f`${firstOperand} ${currentRunningOperation} ${secondOperand} =`
+    lastDisplay.textContent = `${firstOperand} ${currentRunningOperation} ${secondOperand} =`
 
     // Set the current running ops to null for next operations
     currentRunningOperation = null
@@ -72,7 +81,7 @@ function calculate(op, x, y) {
 
     switch (op) {
         case '÷':
-            if (b === 0) return null
+            if (y === 0) return null
             else return operationDivide(x, y)
         case 'x':
             return operationMultiply(x, y)
