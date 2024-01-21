@@ -1,84 +1,86 @@
-let inputButton = document.querySelectorAll(".btn");
-console.log(inputButton);
+const numberButtons = document.querySelectorAll('[data-number]')
+const opsButtons = document.querySelectorAll('[data-operation]')
 
-function operationAdd(x, y) {
-    return x + y;
+const pointButton = document.getElementById("point-button")
+const equalButton = document.getElementById("equal-button")
+const clearButton = document.getElementById("clear-button")
+const negateButton = document.getElementById("negate-button")
+const deleteButton = document.getElementById("delete-button")
+
+const lastDisplay = document.getElementById("last-display")
+const currentDisplay = document.getElementById("current-display")
+
+let firstOperand, secondOperand = ""
+let currentRunningOperation = null
+let shouldResetScreen = false
+
+let operationMultiply = (x, y) => x * y;
+let operationDivide = (x, y) => x / y;
+let operationAdd = (x, y) => x + y;
+let operationSubtract = (x, y) => x - y;
+
+numberButtons.forEach((num) => {
+    num.addEventListener('click', () => console.log(num.textContent))
+})
+
+opsButtons.forEach((op) => {
+    op.addEventListener('click', () => console.log(op.textContent))
+})
+
+function appendNumber(num) {
+    if (lastDisplay.textContent === "0" || shouldResetScreen) resetDisplay()
+
 }
 
-function operationSubtract(x, y) {
-    return x - y;
+function resetDisplay() {
+    currentDisplay.textContent = ""
+    shouldResetScreen = false
 }
 
-function operationMultiply(x, y) {
-    return x * y;
+function setRunningOperation(op) {
+    // If there is operation, get the second operand and do evaluation
+    if (currentRunningOperation !== null) continueRunningOperation()
+
+    firstOperand = currentDisplay.textContent
+    currentRunningOperation = op
+    lastDisplay = f`${firstOperand} ${currentRunningOperation}`
+    shouldResetScreen = true
 }
 
-function operationDivide(x, y) {
-    return x / y;
-}
-
-function mergeNumber(inputArray) {
-    const resArray = []
-
-    for (let i = 0; i < inputArray.length; i++) {
-        if (typeof inputArray[i] === 'number') {
-            let mergedNum = inputArray[i].toString()
-
-            // Check consecutive number
-            while (i + 1 < inputArray.length && typeof inputArray[i + 1] === 'number') {
-                mergedNum += inputArray[i + 1]
-                i++
-            }
-
-            resArray.push(parseInt(mergedNum, 10))
-        } else {
-            resArray.push(inputArray[i])
-        }
+function continueRunningOperation() {
+    if (currentRunningOperation === null) return
+    if (currentRunningOperation === "÷" && currentDisplay.textContent === "0") {
+        alert("Cannot divide by zero!")
+        return
     }
 
-    return resArray
+    // Get the second operand to be calculate with first
+    secondOperand = currentDisplay.textContent
+
+    // Calculate the result, display in screen
+    currentDisplay.textContent = calculate(
+        currentRunningOperation, firstOperand, secondOperand)
+    lastDisplay.textContent = f`${firstOperand} ${currentRunningOperation} ${secondOperand} =`
+
+    // Set the current running ops to null for next operations
+    currentRunningOperation = null
 }
 
-// const opsList = ['div', 'mul', 'min', 'plus'];
-let inputArr = [];
-inputButton.forEach((button) => {
-    button.addEventListener('click', () => {
-        // Utility button
-        const clearClicked = button.classList.contains("clear");
-        const convClicked = button.classList.contains("conv")
-        const delClicked = button.classList.contains("del");
+function calculate(op, x, y) {
+    x = Number(x)
+    y = Number(y)
 
-        // Num button
-        const eqClicked = button.classList.contains("eq");
-
-        // Operation button
-        const opsClicked = button.classList.contains("ops")
-
-        if (clearClicked) {
-            inputArr.length = 0
-            console.log(inputArr)
-
-        } else if (convClicked) {
-            console.log(button.textContent)
-
-        } else if (delClicked) {
-            inputArr.pop()
-            console.log(inputArr)
-
-        } else if (eqClicked) {
-            inputArr = mergeNumber(inputArr)
-            console.log(inputArr)
-
-        } else {
-            let num = parseInt(button.textContent, 10)
-            if (num) {
-                inputArr.push(num)
-            } else {
-                inputArr.push(button.textContent)
-            }
-            // inputArr.push(button.textContent)
-        }
-
-
-    });
-});
+    switch (op) {
+        case '÷':
+            if (b === 0) return null
+            else return operationDivide(x, y)
+        case 'x':
+            return operationMultiply(x, y)
+        case '+':
+            return operationAdd(x, y)
+        case '-':
+            return operationSubtract(x, y)
+        default:
+            return null
+    }
+}

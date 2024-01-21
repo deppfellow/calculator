@@ -17,36 +17,40 @@
     <main>
         <div class="main-container">
             <div class="display-container">
-                <p> 0 </p>
+                <div id="last-display"></div>
+                <div id="current-display">0</div>
             </div>
 
             <div class="utility-container">
-                <button class="btn util clear"> C </button>
-                <button class="btn util conv"> +/- </button>
-                <button class="btn util del"> DEL </button>
+                <button class="btn" id="clear-button"> C </button>
+                <button class="btn" id="negate-button"> +/- </button>
+                <button class="btn" id="delete-button"> DEL </button>
             </div>
 
             <div class="input-container">
                 <div class="number-key">
-                    <button class="btn num">7</button>
-                    <button class="btn num">8</button>
-                    <button class="btn num">9</button>
-                    <button class="btn num">4</button>
-                    <button class="btn num">5</button>
-                    <button class="btn num">6</button>
-                    <button class="btn num">1</button>
-                    <button class="btn num">2</button>
-                    <button class="btn num">3</button>
-                    <button class="btn num">0</button>
-                    <button class="btn dot">.</button>
-                    <button class="btn eq">=</button>
+                    <button class="btn" data-number>7</button>
+                    <button class="btn" data-number>8</button>
+                    <button class="btn" data-number>9</button>
+
+                    <button class="btn" data-number>4</button>
+                    <button class="btn" data-number>5</button>
+                    <button class="btn" data-number>6</button>
+
+                    <button class="btn" data-number>1</button>
+                    <button class="btn" data-number>2</button>
+                    <button class="btn" data-number>3</button>
+
+                    <button class="btn" data-number>0</button>
+                    <button class="btn" id="point-button">.</button>
+                    <button class="btn" id="equal-button">=</button>
                 </div>
 
                 <div class="ops-key">
-                    <button class="btn ops">/</button>
-                    <button class="btn ops">*</button>
-                    <button class="btn ops">-</button>
-                    <button class="btn ops">+</button>
+                    <button class="btn" data-operation>÷</button>
+                    <button class="btn" data-operation>x</button>
+                    <button class="btn" data-operation>-</button>
+                    <button class="btn" data-operation>+</button>
                 </div>
             </div>
 

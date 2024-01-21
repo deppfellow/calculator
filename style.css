@@ -44,10 +44,13 @@ footer {
     border: 2px solid #a0a0a0;
 }
 
-.display-container p {
+.display-container div {
     position: absolute;
-    bottom: 20px;
     right: 20px;
+}
+
+.display-container>.current-display {
+    bottom: 20px;
     font-size: 24px;
 }
 
