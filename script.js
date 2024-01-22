@@ -58,20 +58,24 @@ function clearDisplay() {
 }
 
 function negateDisplay() {
+    // ISSUE: can't detect displayed string start with "-", not triggering the neg number to pos
     if (currentDisplay.textContent === "0") return
     if (currentDisplay.textContent.startsWith("-")) {
-        console.log("Its running!")
-        currentDisplay.textContent = currentDisplay.textContent.substring(1)
+        currentDisplay.textContent = currentDisplay.textContent.slice(1)
     }
 
     currentDisplay.textContent = "-" + currentDisplay.textContent
 }
 
 function deleteDisplay() {
+    // ISSUE: can't detect displayed string start with "-"
     if (currentDisplay.textContent === "0") return
-    if (currentDisplay.textContent === '') currentDisplay.textContent = "0"
+    if (currentDisplay.textContent === "") currentDisplay.textContent = "0"
+    if (currentDisplay.textContent.length == 2 && currentDisplay.textContent.startsWith("-")) {
+        currentDisplay.textContent = "0"
+    }
 
-    currentDisplay.textContent = currentDisplay.textContent.substring(1, currentDisplay.textContent.length - 1)
+    currentDisplay.textContent = currentDisplay.textContent.slice(0, -1)
 }
 
 function resetDisplay() {
