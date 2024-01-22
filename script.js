@@ -19,11 +19,11 @@ let operationDivide = (x, y) => x / y;
 let operationAdd = (x, y) => x + y;
 let operationSubtract = (x, y) => x - y;
 
-equalButton.addEventListener('click', () => {
-    continueRunningOperation()
-    // console.log("Its running!")
-})
-
+pointButton.addEventListener('click', () => appendPoint())
+equalButton.addEventListener('click', () => continueRunningOperation())
+clearButton.addEventListener('click', () => clearDisplay())
+negateButton.addEventListener('click', () => negateDisplay())
+deleteButton.addEventListener('click', () => deleteDisplay())
 
 // Logic to listen to the button pressed
 numberButtons.forEach((num) => {
@@ -38,6 +38,40 @@ function appendNumber(num) {
     if (currentDisplay.textContent === "0" || shouldResetScreen) resetDisplay()
 
     currentDisplay.textContent += num
+}
+
+function appendPoint(num) {
+    if (shouldResetScreen) return
+    if (currentDisplay.textContent === "") currentDisplay.textContent = "0"
+    if (currentDisplay.textContent.includes(".")) return
+
+    currentDisplay.textContent += "."
+}
+
+function clearDisplay() {
+    currentDisplay.textContent = "0"
+    lastDisplay.textContent = ""
+
+    firstOperand = ""
+    secondOperand = ""
+    currentRunningOperation = null
+}
+
+function negateDisplay() {
+    if (currentDisplay.textContent === "0") return
+    if (currentDisplay.textContent.startsWith("-")) {
+        console.log("Its running!")
+        currentDisplay.textContent = currentDisplay.textContent.substring(1)
+    }
+
+    currentDisplay.textContent = "-" + currentDisplay.textContent
+}
+
+function deleteDisplay() {
+    if (currentDisplay.textContent === "0") return
+    if (currentDisplay.textContent === '') currentDisplay.textContent = "0"
+
+    currentDisplay.textContent = currentDisplay.textContent.substring(1, currentDisplay.textContent.length - 1)
 }
 
 function resetDisplay() {
@@ -67,12 +101,17 @@ function continueRunningOperation() {
     secondOperand = currentDisplay.textContent
 
     // Calculate the result, display in screen
-    currentDisplay.textContent = calculate(
-        currentRunningOperation, firstOperand, secondOperand)
+    currentDisplay.textContent = roundResult(
+        calculate(currentRunningOperation, firstOperand, secondOperand)
+    )
     lastDisplay.textContent = `${firstOperand} ${currentRunningOperation} ${secondOperand} =`
 
     // Set the current running ops to null for next operations
     currentRunningOperation = null
+}
+
+function roundResult(res) {
+    return Math.round(res * 10000) / 10000
 }
 
 function calculate(op, x, y) {
